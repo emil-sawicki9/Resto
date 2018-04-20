@@ -71,5 +71,6 @@
         <file alias="remove">resources/images/minus.svg</file>
         <file>qml/dialogs/ChangeTimeDialog.qml</file>
         <file alias="change-time">resources/images/change-time.svg</file>
+        <file>resources/images/app-logo-working.png</file>
     </qresource>
 </RCC>

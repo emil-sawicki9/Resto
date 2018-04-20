@@ -30,6 +30,8 @@
 #include <QSystemTrayIcon>
 #include <QMenu>
 
+#include "controller/controller.h"
+
 class QQuickWindow;
 class QQuickCloseEvent;
 
@@ -84,6 +86,8 @@ private:
     void checkInitState();
 
 private slots:
+    void onControllerStateChanged(Controller::State state);
+
     void onWindowVisibilityChanged(QWindow::Visibility visibility);
     void onWindowClosed();
     void onTrayActivated(QSystemTrayIcon::ActivationReason activationReason);

@@ -30,7 +30,6 @@
 #endif
 
 #include "utility/helpers.h"
-#include "controller/controller.h"
 
 TrayManager::TrayManager(Controller &controller, QQuickWindow *mainWindow, QObject *parent)
     : QObject(parent), m_controller(controller), m_mainWindow(mainWindow)
@@ -49,9 +48,21 @@ TrayManager::TrayManager(Controller &controller, QQuickWindow *mainWindow, QObje
         initTrayMenu();
         initTrayIcon();
         checkInitState();
+        connect(&controller, &Controller::stateChanged, this, &TrayManager::onControllerStateChanged);
+        onControllerStateChanged(controller.state());
     } else {
         connect(m_mainWindow.data(), SIGNAL(closing(QQuickCloseEvent*)), // QTBUG-36453 -> cannot use C++11 style connect
                 this, SLOT(onWindowClosed()) );
+    }
+}
+
+void TrayManager::onControllerStateChanged(Controller::State state)
+{
+    if (state == Controller::State::Working) {
+        m_trayIcon.setIcon(QIcon(QStringLiteral(":resources/images/app-logo-working.png")));
+    }
+    else {
+        m_trayIcon.setIcon(QApplication::windowIcon());
     }
 }
 
