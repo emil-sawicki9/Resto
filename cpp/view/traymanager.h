@@ -63,6 +63,7 @@ signals:
 
 public slots:
     void showWindow();
+    void onWorkTimeChanged(const int time);
 
 private:
     bool m_isAvailable; //! Defines if system tray is available for current system
@@ -104,7 +105,6 @@ private slots:
     void showAbout();
     void saveAndQuit();
     void quit();
-
 };
 
 #endif // TRAYMANAGER_H

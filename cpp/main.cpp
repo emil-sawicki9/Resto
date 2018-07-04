@@ -58,6 +58,8 @@ int main(int argc, char *argv[])
                          engine.rootObjects().first()) );
     QObject::connect(&sam, &SingleAppManager::anotherAppStarted, &tray, &TrayManager::showWindow);
 
+    QObject::connect(&controller.timer(), &TimerController::elapsedWorkTimeChanged, &tray, &TrayManager::onWorkTimeChanged);
+
     if (tray.isAvailable())
         app.setQuitOnLastWindowClosed(false);
     return app.exec();

@@ -25,6 +25,8 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QCheckBox>
+#include <QPainter>
+#include <QtMath>
 #ifdef Q_OS_LINUX
 #include <QProcess>
 #endif
@@ -59,11 +61,27 @@ TrayManager::TrayManager(Controller &controller, QQuickWindow *mainWindow, QObje
 void TrayManager::onControllerStateChanged(Controller::State state)
 {
     if (state == Controller::State::Working) {
-        m_trayIcon.setIcon(QIcon(QStringLiteral(":resources/images/app-logo-working.png")));
+
     }
     else {
         m_trayIcon.setIcon(QApplication::windowIcon());
     }
+}
+
+void TrayManager::onWorkTimeChanged(const int time)
+{
+    QPixmap pixmap(30,30);
+    pixmap.fill(QColor("#90EE90"));
+    QPainter painter(&pixmap);
+
+    int hours, mins;
+    mins = (qFloor(time/60))%60;
+    hours = qFloor( (qFloor(time/60))/60 );
+
+    QString timeStr = QString::number(hours)+ ":" + QString::number(mins);
+
+    painter.drawText(pixmap.rect(),Qt::AlignCenter,timeStr);
+    m_trayIcon.setIcon(pixmap);
 }
 
 bool TrayManager::isAvailable() const
